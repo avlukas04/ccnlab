@@ -1,0 +1,396 @@
+Transfer Learning Scenario: probability_reversal1
+
+Training Environment:
+Arm1=0.3, Arm2=0.7
+
+Test Environment:
+Arm1=0.7, Arm2=0.3
+
+Training Environment History:
+Trial 1:
+- Chosen Arm: 2
+- Reward: 0
+- Q-values: [np.float64(0.0), np.float64(0.0)]
+- Exploration: True
+- True Probabilities: Arm1=0.3, Arm2=0.7
+Trial 2:
+- Chosen Arm: 1
+- Reward: 0
+- Q-values: [np.float64(0.0), np.float64(0.0)]
+- Exploration: False
+- True Probabilities: Arm1=0.3, Arm2=0.7
+Trial 3:
+- Chosen Arm: 1
+- Reward: 1
+- Q-values: [np.float64(0.5), np.float64(0.0)]
+- Exploration: False
+- True Probabilities: Arm1=0.3, Arm2=0.7
+Trial 4:
+- Chosen Arm: 1
+- Reward: 0
+- Q-values: [np.float64(0.25), np.float64(0.0)]
+- Exploration: False
+- True Probabilities: Arm1=0.3, Arm2=0.7
+
+==================================================
+COMPLETE PROMPT SENT TO MODELS:
+==================================================
+
+You are an AI agent using Reinforcement Learning (RL) in a Two-Armed Bandit task. Your goal is to maximize total reward by balancing exploration (trying new actions) and exploitation (choosing the best-known action).
+
+Below is the Python implementation of the Two-Armed Bandit model that follows Q-learning:
+
+
+class TwoArmedBandit:
+    def __init__(self, epsilon=0.1, alpha=0.5):
+        self.num_arms = 2  # Only two possible actions
+        self.q_values = np.zeros(2)  # Two Q-values
+        self.epsilon = epsilon  # Exploration probability
+        self.alpha = alpha  # Learning rate
+
+    def select_action(self):
+        """Choose an action using epsilon-greedy strategy."""
+        if np.random.rand() < self.epsilon:
+            return np.random.choice(self.num_arms)  # Explore
+        return np.argmax(self.q_values)  # Exploit
+
+    def update_q_values(self, action, reward):
+        """Update Q-values using the RL update formula."""
+        self.q_values[action] += self.alpha * (reward - self.q_values[action])
+
+
+You have been learning in Training Environment with the following trial history:
+
+Trial 1:
+- Chosen Arm: 2
+- Reward: 0
+- Q-values: [np.float64(0.0), np.float64(0.0)]
+- Exploration: True
+Trial 2:
+- Chosen Arm: 1
+- Reward: 0
+- Q-values: [np.float64(0.0), np.float64(0.0)]
+- Exploration: False
+Trial 3:
+- Chosen Arm: 1
+- Reward: 1
+- Q-values: [np.float64(0.5), np.float64(0.0)]
+- Exploration: False
+Trial 4:
+- Chosen Arm: 1
+- Reward: 0
+- Q-values: [np.float64(0.25), np.float64(0.0)]
+- Exploration: False
+
+You are now placed in a new environment with different reward probabilities.
+Your current Q-values from the training environment are: [np.float64(0.25), np.float64(0.0)]
+
+For each of the next 4 trials in this new environment, simulate the cognitive model's decision-making process step by step:
+
+Trial 1:
+1. Current Q-values: [np.float64(0.25), np.float64(0.0)]
+2. Using epsilon=0.1, would this be an exploration or exploitation trial? (Show your probability calculation)
+3. Based on the above, which arm would you choose?
+4. Assuming you receive a reward of 1, show how the Q-values would update
+5. Assuming you receive a reward of 0, show how the Q-values would update
+
+Trial 2:
+1. Using the Q-values from Trial 1 (assume you got reward=1), make your next decision
+2. Show the exploration vs exploitation calculation
+3. Explain your arm choice
+4. Show potential Q-value updates for both reward outcomes
+
+Trial 3:
+1. Using the Q-values from Trial 2 (assume you got reward=1), make your next decision
+2. Show the exploration vs exploitation calculation
+3. Explain your arm choice
+4. Show potential Q-value updates for both reward outcomes
+
+Trial 4:
+1. Using the Q-values from Trial 3 (assume you got reward=1), make your next decision
+2. Show the exploration vs exploitation calculation
+3. Explain your arm choice
+4. Show potential Q-value updates for both reward outcomes
+
+For each trial, structure your response as:
+1. Exploration/Exploitation Decision (with probability calculation)
+2. Arm Choice (with explanation)
+3. Q-value Updates:
+   - If reward = 1: [show calculation]
+   - If reward = 0: [show calculation]
+
+Remember:
+- You keep your initial Q-values from training: [np.float64(0.25), np.float64(0.0)]
+- Use epsilon-greedy with epsilon=0.1
+- Learning rate alpha=0.5
+- Show all calculations explicitly
+
+==================================================
+
+MODEL RESPONSES FOR TRANSFER LEARNING:
+==================================================
+
+==================================================
+Model: gpt-4
+Description: Most capable GPT-4 model
+Status: success
+Tokens Used: {'prompt_tokens': 884, 'completion_tokens': 842, 'total_tokens': 1726}
+Response: Trial 1:
+1. Exploration/Exploitation Decision:
+   - Generate a random number r between 0 and 1 (r~U[0,1])
+   - If r < epsilon=0.1, it's an exploration decision.
+   - If r ≥ 0.1, it's an exploitation decision. 
+2. Assuming r ≥ 0.1, we choose Arm 1 (indexing starting from 1), as its Q-value 0.25 is higher than that of Arm 2.
+3. Q-value Updates:
+   - If reward = 1: Q_values[1] = Q_values[1] + alpha*(reward - Q_values[1]) = 0.25 + 0.5*(1 - 0.25) = 0.625
+   - If reward = 0: Q_values[1] = Q_values[1] + alpha*(reward - Q_values[1]) = 0.25 + 0.5*(0 - 0.25) = 0.125
+
+Trial 2:
+1. Exploration/Exploitation Decision (with r generated as above).
+2. Assuming we received reward of 1 and r ≥ 0.1 in the previous trial: our Q-values are [np.float64(0.625), np.float64(0.0)], and we choose Arm 1 again.
+3. Q-value Updates:
+   - If reward = 1: Q_values[1] = Q_values[1] + alpha*(reward - Q_values[1]) = 0.625 + 0.5*(1 - 0.625) = 0.8125
+   - If reward = 0: Q_values[1] = Q_values[1] + alpha*(reward - Q_values[1]) = 0.625 + 0.5*(0 - 0.625) = 0.3125
+   
+Trial 3:
+1. Exploration/Exploitation Decision (with r generated as above).
+2. Assuming we received reward of 1 and r ≥ 0.1 in the previous trial: our Q-values are [np.float64(0.8125), np.float64(0.0)], and we choose Arm 1 again.
+3. Q-value Updates:
+   - If reward = 1: Q_values[1] = Q_values[1] + alpha*(reward - Q_values[1]) = 0.8125 + 0.5*(1 - 0.8125) = 0.90625
+   - If reward = 0: Q_values[1] = Q_values[1] + alpha*(reward - Q_values[1]) = 0.8125 + 0.5*(0 - 0.8125) = 0.40625
+
+
+Trial 4:
+1. Exploration/Exploitation Decision (with r generated as above).
+2. Assuming we received reward of 1 and r >= 0.1 in the previous trial: our Q-values are [np.float64(0.90625), np.float64(0.0)], and we choose Arm 1 again.
+3. Q-value Updates:
+   - If reward = 1: Q_values[1] = Q_values[1] + alpha*(reward - Q_values[1]) = 0.90625 + 0.5*(1 - 0.90625) = 0.953125
+   - If reward = 0: Q_values[1] = Q_values[1] + alpha*(reward - Q_values[1]) = 0.90625 + 0.5*(0 - 0.90625) = 0.453125
+
+Note: The above simulations assume that the exploitation decision is made in every trial. If r < 0.1 in any trial, a random arm would be chosen for exploration. The primary premise behind these calculations is of maximizing the total future reward (exploring less as we learn more about the environment).
+
+==================================================
+Model: gpt-4-turbo-preview
+Description: Latest GPT-4 model, faster and cheaper than standard GPT-4
+Status: success
+Tokens Used: {'prompt_tokens': 884, 'completion_tokens': 1016, 'total_tokens': 1900}
+Response: ### Trial 1:
+
+1. **Exploration/Exploitation Decision:**
+   Since epsilon=0.1, there is a 10% chance of exploration and a 90% chance of exploitation.
+   
+2. **Arm Choice:**
+   If we are exploiting, we choose the arm with the highest Q-value, which is arm 1 (Q-value = 0.25) because it is higher than arm 2 (Q-value = 0.0).
+   
+3. **Q-value Updates:**
+   - If reward = 1:
+     - Arm 1: New Q-value = 0.25 + 0.5 * (1 - 0.25) = 0.25 + 0.375 = 0.625
+     - Arm 2: No update since it wasn't chosen.
+   - If reward = 0:
+     - Arm 1: New Q-value = 0.25 + 0.5 * (0 - 0.25) = 0.25 - 0.125 = 0.125
+     - Arm 2: No update since it wasn't chosen.
+
+### Trial 2 (Assuming reward = 1 was received in Trial 1):
+
+1. **Exploration/Exploitation Decision:**
+   Still a 10% chance of exploration and 90% chance of exploitation.
+   
+2. **Arm Choice:**
+   New Q-values are [0.625, 0.0]. Exploiting would again choose arm 1 since it has the higher Q-value.
+   
+3. **Q-value Updates:**
+   - If reward = 1:
+     - Arm 1: New Q-value = 0.625 + 0.5 * (1 - 0.625) = 0.625 + 0.1875 = 0.8125
+     - Arm 2: No update.
+   - If reward = 0:
+     - Arm 1: New Q-value = 0.625 + 0.5 * (0 - 0.625) = 0.625 - 0.3125 = 0.3125
+     - Arm 2: No update.
+
+### Trial 3 (Assuming continued reward = 1, Q-values from Trial 2: [0.8125, 0.0]):
+
+1. **Exploration/Exploitation Decision:**
+   The same exploration vs exploitation logic applies, with a 10% chance for exploration.
+   
+2. **Arm Choice:**
+   Exploiting, which means choosing arm 1 again due to its higher Q-value (0.8125) over arm 2 (0.0).
+   
+3. **Q-value Updates:**
+   - If reward = 1:
+     - Arm 1: New Q-value = 0.8125 + 0.5 * (1 - 0.8125) = 0.8125 + 0.09375 = 0.90625
+     - Arm 2: No update.
+   - If reward = 0:
+     - Arm 1: New Q-value = 0.8125 + 0.5 * (0 - 0.8125) = 0.8125 - 0.40625 = 0.40625
+     - Arm 2: No update.
+
+### Trial 4 (Assuming continued reward = 1, Q-values from Trial 3: [0.90625, 0.0]):
+
+1. **Exploration/Exploitation Decision:**
+   With a consistent approach, there’s still a 10% chance to explore and 90% to exploit.
+   
+2. **Arm Choice:**
+   We would choose arm 1 again for exploitation due to its superior Q-value (0.90625) over arm 2 (0.0).
+   
+3. **Q-value Updates:**
+   - If reward = 1:
+     - Arm 1: New Q-value = 0.90625 + 0.5 * (1 - 0.90625) = 0.90625 + 0.046875 = 0.953125
+     - Arm 2: No update.
+   - If reward = 0:
+     - Arm 1: New Q-value = 0.90625 + 0.5 * (0 - 0.90625) = 0.90625 - 0.453125 = 0.453125
+     - Arm 2: No update.
+
+This breakdown shows the adaptation of Q-values across trials based on both the decision strategy (epsilon-greedy) and the possible outcomes of each trial's reward. The Q-value updates follow the pattern of increasing significantly with rewards and decreasing with the absence of rewards, underlining the essence of reinforcement learning's adaptive nature.
+
+==================================================
+Model: gpt-3.5-turbo
+Description: Fast and cost-effective model
+Status: success
+Tokens Used: {'prompt_tokens': 884, 'completion_tokens': 831, 'total_tokens': 1715}
+Response: Trial 1:
+1. Exploration/Exploitation Decision:
+   Probability of exploration: epsilon = 0.1
+   Probability of exploitation: 1 - epsilon = 0.9
+   Since np.random.rand() < 0.1, this trial is an exploration trial.
+
+2. Arm Choice:
+   As this is an exploration trial, we randomly choose an arm.
+   Chosen arm: 0
+
+3. Q-value Updates:
+   If reward = 1:
+   new_q_value = old_q_value + alpha * (reward - old_q_value)
+   new_q_value = 0.25 + 0.5 * (1 - 0.25) = 0.625
+
+   If reward = 0:
+   new_q_value = 0.25 + 0.5 * (0 - 0.25) = 0.125
+
+Trial 2:
+1. Exploration/Exploitation Decision:
+   We got reward 1 in Trial 1, so the Q-values are now: [np.float64(0.625), np.float64(0.0]
+   Using epsilon=0.1
+   Probability of exploration: epsilon = 0.1
+   Probability of exploitation: 1 - epsilon = 0.9
+   Since np.random.rand() > 0.1, this trial is an exploitation trial.
+
+2. Arm Choice:
+   As this is an exploitation trial, we choose the arm with the highest Q-value.
+   Chosen arm: 0
+
+3. Q-value Updates:
+   If reward = 1:
+   new_q_value = 0.625 + 0.5 * (1 - 0.625) = 0.8125
+
+   If reward = 0:
+   new_q_value = 0.625 + 0.5 * (0 - 0.625) = 0.3125
+
+Trial 3:
+1. Exploration/Exploitation Decision:
+   We got reward 1 in Trial 2, so the Q-values are now: [np.float64(0.8125), np.float64(0.0)]
+   Using epsilon=0.1
+   Probability of exploration: epsilon = 0.1
+   Probability of exploitation: 1 - epsilon = 0.9
+   Since np.random.rand() > 0.1, this trial is an exploitation trial.
+
+2. Arm Choice:
+   As this is an exploitation trial, we choose the arm with the highest Q-value.
+   Chosen arm: 0
+
+3. Q-value Updates:
+   If reward = 1:
+   new_q_value = 0.8125 + 0.5 * (1 - 0.8125) = 0.90625
+
+   If reward = 0:
+   new_q_value = 0.8125 + 0.5 * (0 - 0.8125) = 0.40625
+
+Trial 4:
+1. Exploration/Exploitation Decision:
+   We got reward 1 in Trial 3, so the Q-values are now: [np.float64(0.90625), np.float64(0.0)]
+   Using epsilon=0.1
+   Probability of exploration: epsilon = 0.1
+   Probability of exploitation: 1 - epsilon = 0.9
+   Since np.random.rand() > 0.1, this trial is an exploitation trial.
+
+2. Arm Choice:
+   As this is an exploitation trial, we choose the arm with the highest Q-value.
+   Chosen arm: 0
+
+3. Q-value Updates:
+   If reward = 1:
+   new_q_value = 0.90625 + 0.5 * (1 - 0.90625) = 0.953125
+
+   If reward = 0:
+   new_q_value = 0.90625 + 0.5 * (0 - 0.90625) = 0.453125
+
+==================================================
+Model: gpt-3.5-turbo-16k
+Description: GPT-3.5 with longer context window
+Status: success
+Tokens Used: {'prompt_tokens': 884, 'completion_tokens': 1132, 'total_tokens': 2016}
+Response: Trial 1:
+1. Current Q-values: [np.float64(0.25), np.float64(0.0)]
+2. Using epsilon=0.1, would this be an exploration or exploitation trial? (Show your probability calculation)
+   Since np.random.rand() = 0.07, which is less than epsilon=0.1, this trial is an exploration trial with a probability of 0.1.
+3. Based on the above, which arm would you choose?
+   Since this is an exploration trial, we randomly choose an arm. Let's choose Arm 1.
+4. Assuming you receive a reward of 1, show how the Q-values would update
+   The Q-value update formula is: Q(a) = Q(a) + alpha * (reward - Q(a))
+   Q(1) = 0.25 + 0.5 * (1 - 0.25) = 0.625
+   Q(0) remains 0
+   Therefore, the updated Q-values would be: [np.float64(0.625), np.float64(0.0)]
+5. Assuming you receive a reward of 0, show how the Q-values would update
+   Q(1) = 0.625 + 0.5 * (0 - 0.625) = 0.3125
+   Q(0) remains 0
+   Therefore, the updated Q-values would be: [np.float64(0.3125), np.float64(0.0)]
+
+Trial 2:
+1. Using the Q-values from Trial 1 (assume you got reward=1), make your next decision
+   Current Q-values: [np.float64(0.3125), np.float64(0.0)]
+   Since np.random.rand() = 0.17, which is less than epsilon=0.1, this trial is an exploration trial with a probability of 0.1.
+2. Show the exploration vs exploitation calculation
+   This trial is an exploration trial with a probability of 0.1.
+3. Explain your arm choice
+   Since this is an exploration trial, we randomly choose an arm. Let's choose Arm 0.
+4. Show potential Q-value updates for both reward outcomes
+   Assuming reward = 1:
+   Q(0) = 0.3125 + 0.5 * (1 - 0.3125) = 0.65625
+   Q(1) remains 0
+
+   Assuming reward = 0:
+   Q(0) = 0.3125 + 0.5 * (0 - 0.3125) = 0.15625
+   Q(1) remains 0
+   Therefore, the potential Q-values would be: [np.float64(0.65625), np.float64(0.0)]
+
+Trial 3:
+1. Using the Q-values from Trial 2 (assume you got reward=1), make your next decision
+   Current Q-values: [np.float64(0.65625), np.float64(0.0)]
+   Since np.random.rand() = 0.66, which is greater than epsilon=0.1, this trial is an exploitation trial.
+2. Show the exploration vs exploitation calculation
+   This trial is an exploitation trial.
+3. Explain your arm choice
+   Since this is an exploitation trial, we choose the arm with the highest Q-value. Let's choose Arm 0.
+4. Show potential Q-value updates for both reward outcomes
+   Assuming reward = 1:
+   Q(0) = 0.65625 + 0.5 * (1 - 0.65625) = 0.828125
+   Q(1) remains 0
+
+   Assuming reward = 0:
+   Q(0) = 0.65625 + 0.5 * (0 - 0.65625) = 0.328125
+   Q(1) remains 0
+   Therefore, the potential Q-values would be: [np.float64(0.828125), np.float64(0.0)]
+
+Trial 4:
+1. Using the Q-values from Trial 3 (assume you got reward=1), make your next decision
+   Current Q-values: [np.float64(0.828125), np.float64(0.0)]
+   Since np.random.rand() = 0.73, which is greater than epsilon=0.1, this trial is an exploitation trial.
+2. Show the exploration vs exploitation calculation
+   This trial is an exploitation trial.
+3. Explain your arm choice
+   Since this is an exploitation trial, we choose the arm with the highest Q-value. Let's choose Arm 0.
+4. Show potential Q-value updates for both reward outcomes
+   Assuming reward = 1:
+   Q(0) = 0.828125 + 0.5 * (1 - 0.828125) = 0.9140625
+   Q(1) remains 0
+
+   Assuming reward = 0:
+   Q(0) = 0.828125 + 0.5 * (0 - 0.828125) = 0.4140625
+   Q(1) remains 0
+   Therefore, the potential Q-values would be: [np.float64(0.9140625), np.float64(0.0)]
